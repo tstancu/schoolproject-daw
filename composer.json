@@ -1,5 +1,5 @@
 {
-    "name": "Revista Online",
+    "name": "schoolproject-daw/revista-online",
     "type": "project",
     "description": "Anul II DAW - project",
     "keywords": ["application"],
@@ -16,6 +16,6 @@
         "source": "https://github.com/tstancu/schoolproject-daw"
     },
     "require": {
-        "php": ">=7.4"
+        "php": ">=8"
     }
 }
