@@ -1,2 +1,2 @@
-# schoolproject-daw
+# Revista Online
 Anul II - DAW
