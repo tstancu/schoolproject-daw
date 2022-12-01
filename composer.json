@@ -1,0 +1,21 @@
+{
+    "name": "Revista Online",
+    "type": "project",
+    "description": "Anul II DAW - project",
+    "keywords": ["application"],
+    "homepage": "https://github.com/tstancu/schoolproject-daw",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Theodor Stancu",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/tstancu/schoolproject-daw/issues",
+        "source": "https://github.com/tstancu/schoolproject-daw"
+    },
+    "require": {
+        "php": ">=5.3.0"
+    }
+}
