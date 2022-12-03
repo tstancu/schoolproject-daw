@@ -14,8 +14,6 @@
     "support": {
         "issues": "https://github.com/tstancu/schoolproject-daw/issues",
         "source": "https://github.com/tstancu/schoolproject-daw"
-    },
-    "require": {
-        "php": ">=8"
     }
+    
 }
