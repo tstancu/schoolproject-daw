@@ -1,21 +1,40 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
 Vagrant.configure("2") do |config|
+
   config.vm.box = "ubuntu/focal64"
-
   config.vm.network "forwarded_port", guest: 80, host: 8080
-
-  config.vm.synced_folder "../", "/vagrant"
-
   config.vm.network "private_network", ip: "192.168.33.10"
-
+  config.vm.synced_folder "../", "/vagrant"
+  config.vm.boot_timeout = 600
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = "1024"
+    vb.memory = "2048"
   end
 
   config.vm.provision "shell", inline: <<-SHELL
-    apt-get update
-    apt-get install -y apache2 mysql-server php libapache2-mod-php php-mysql
-    rm -rf /var/www/html/index.html
-    ln -s /vagrant/public /var/www/html
+    # Update package list
+    sudo apt-get update
+
+    # Install Apache and PHP
+    sudo apt-get install -y apache2 php libapache2-mod-php php-mysql
+
+    # Install MySQL and set root password
+    sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password root"
+    sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password root"
+    sudo apt-get install -y mysql-server
+
+    # Install phpMyAdmin
+    sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/dbconfig-install boolean true"
+    sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/app-password-confirm password root"
+    sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-pass password root"
+    sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password root"
+    sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2"
+    sudo apt-get install -y phpmyadmin
+
+    # Configure Apache for phpMyAdmin
+    sudo echo 'Include /etc/phpmyadmin/apache.conf' >> /etc/apache2/apache2.conf
+
 
     # Create a new virtual host configuration file for Apache
     sudo cp /vagrant/vagrant/development.conf /etc/apache2/sites-available/development.conf
@@ -28,4 +47,5 @@ Vagrant.configure("2") do |config|
     # Restart Apache
     sudo service apache2 restart
   SHELL
+
 end
