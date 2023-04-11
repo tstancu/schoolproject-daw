@@ -1,36 +1,75 @@
-<html>
+<?php
+require_once 'includes/check-login.php';
+require_once 'includes/db.php';
+require_once 'includes/utils.php';
+
+ob_start(); // Start output buffering
+
+$error = '';
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
+// Get the user's subscription_level_id
+$user_subscription_level_id = get_subscription_level_id($_SESSION['user_id'], $conn);
+
+// Update the subscription_level_id in the session
+$_SESSION['subscription_level_id'] = $user_subscription_level_id;
+
+$sql = "SELECT * FROM articles WHERE subscription_level_id <= ?";
+$stmt = $conn->prepare($sql);
+if ($stmt === false) {
+    die("Error preparing statement: " . $conn->error);
+}
+print_r([$_SESSION]);
+$stmt->bind_param("i", $_SESSION['subscription_level_id']);
+$stmt->execute();
+$result = $stmt->get_result();
+$content = $result->fetch_all(MYSQLI_ASSOC);
+// print_r([$content]);
+$stmt->close();
+
+$log = ob_get_clean(); // Get the content of the output buffer
+file_put_contents("query_log.txt", $log, FILE_APPEND); // Write the log to a file
+?>
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Online Magazine</title>
+    <!-- Bootstrap CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <p>Anul II - DAW - Revista Online</p>
-    <p>Stancu Theodor, ID, grupa 2</p>
-    <p>BIG TEST 2</p>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">My Online Magazine</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Articles</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact Us</a>
-                </li>
-            </ul>
+
+
+    <div class="container mt-5">
+        <div class="row">
+            <?php
+            // Replace this array with the actual data from your database
+            $articles = $content;
+
+            foreach ($articles as $article) {
+                include 'includes/article-card.php';
+            }
+            ?>
         </div>
-    </nav>
+    </div>
+
+
+    <!-- Your magazine content will go here -->
+
+    <!-- Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>
