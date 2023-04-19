@@ -264,3 +264,33 @@ Array
         )
 
 )
+Array
+(
+    [0] => 
+    [1] => 
+    [2] => 
+)
+am ajuns aici 1Array
+(
+    [0] => Array
+        (
+            [user_id] => 2
+            [subscription_level_id] => 2
+        )
+
+)
+Array
+(
+    [0] => 
+    [1] => 
+    [2] => 
+)
+am ajuns aici 1Array
+(
+    [0] => Array
+        (
+            [user_id] => 2
+            [subscription_level_id] => 2
+        )
+
+)

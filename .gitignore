@@ -1,3 +1,4 @@
 vendor
 composer.lock
 vagrant/.vagrant
+public/query_log.txt
