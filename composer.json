@@ -1,6 +1,5 @@
 {
     "require": {
-        "phpmailer/phpmailer": "^6.5",
-	"composer-plugin-api": "^1"
+        "phpmailer/phpmailer": "^6.5"
     }
 }
