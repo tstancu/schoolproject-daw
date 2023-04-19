@@ -9,8 +9,8 @@ require_once '../vendor/autoload.php';
 
 
 use PHPMailer\PHPMailer\PHPMailer;
-// use PHPMailer\PHPMailer\SMTP;
-// use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 // $classes = get_declared_classes();
 
@@ -37,12 +37,22 @@ if (isset($_POST['register'])) {
     $subscription_level_id = 1; // Default subscription level (free)
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     $confirmation_code = generate_token();
+    // $is_email_validated = 0; // Default subscription level (free)
 
     var_dump($confirmation_code);
 
     $stmt = $conn->prepare("INSERT INTO users (username, email, password, subscription_level_id, confirmation_code) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssii", $username, $email, $hashed_password, $subscription_level_id, $confirmation_code);
+    $stmt->bind_param("sssis", $username, $email, $hashed_password, $subscription_level_id, $confirmation_code);
     echo "Before printing the stmt variable"; // Debugging code
+
+    // $num_params = $stmt->param_count;
+    // for ($i = 0; $i < $num_params; $i++) {
+    // $param_type = $stmt->param_type($i);
+    // $param_value = null;
+    // $stmt->bind_result($param_value);
+    // $stmt->fetch();
+    // echo "Param " . ($i + 1) . ": " . $param_value . " (type: " . $param_type . ")\n";
+
     
     if ($stmt !== false) {
         // prepared statement is successful
@@ -72,19 +82,19 @@ if (isset($_POST['register'])) {
         try {
             // configure mailer settings (SMTP, email, password, etc.)
             $mail->isSMTP();
-            $mail->Host = 'your_host';
+            $mail->Host = 'sandbox.smtp.mailtrap.io';
             $mail->SMTPAuth = true;
-            $mail->Username = 'your_email';
-            $mail->Password = 'your_password';
+            $mail->Username = '59c6940f65c431';
+            $mail->Password = 'f0d00a31968f26';
             $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
+            $mail->Port = 2525;
 
             // set email content
-            $mail->setFrom('your_email', 'Your Name');
+            $mail->setFrom('from@example.com', 'Maitrap Test');
             $mail->addAddress($email, $username);
             $mail->isHTML(true);
             $mail->Subject = 'Email validation';
-            $mail->Body    = 'Please click the following link to validate your email: http://your_domain/validate_email.php?token=' . $validation_token;
+            $mail->Body    = 'Please click the following link to validate your email: <a href="http://your_domain/validate_email.php?token=' . $confirmation_code . '">Click here</a>';
 
             // send email
             $mail->send();
@@ -93,7 +103,7 @@ if (isset($_POST['register'])) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
 
-        header("Location: login.php");
+        //header("Location: login.php");
         exit;
     } else {
         $error = "Error: " . $stmt->error;
