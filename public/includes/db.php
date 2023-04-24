@@ -6,7 +6,7 @@ $dotenv->load();
 var_dump($_ENV);
 putenv('JAWSDB_MARIA_URL=mysql://i8u51n5m6szbap6y:pfoittzoc880kt28@f80b6byii2vwv8cx.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/vpctx8nxzxydiz73');
 
-//$db_url = getenv('JAWSDB_MARIA_URL');
+$db_url = getenv('JAWSDB_MARIA_URL');
 
 if ($db_url === false) {
     die('JAWSDB_MARIA_URL not found in environment variables');
