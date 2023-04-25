@@ -30,7 +30,7 @@ function generate_token($length = 64) {
 }
 
 if (isset($_POST['register'])) {
-    print_r("we are in first if");
+//    print_r("we are in first if");
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -39,21 +39,13 @@ if (isset($_POST['register'])) {
     $confirmation_code = generate_token();
     // $is_email_validated = 0; // Default subscription level (free)
 
-    var_dump($confirmation_code);
+//    var_dump($confirmation_code);
 
     $stmt = $conn->prepare("INSERT INTO users (username, email, password, subscription_level_id, confirmation_code) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssis", $username, $email, $hashed_password, $subscription_level_id, $confirmation_code);
-    echo "Before printing the stmt variable"; // Debugging code
+//    echo "Before printing the stmt variable"; // Debugging code
 
-    // $num_params = $stmt->param_count;
-    // for ($i = 0; $i < $num_params; $i++) {
-    // $param_type = $stmt->param_type($i);
-    // $param_value = null;
-    // $stmt->bind_result($param_value);
-    // $stmt->fetch();
-    // echo "Param " . ($i + 1) . ": " . $param_value . " (type: " . $param_type . ")\n";
 
-    
     if ($stmt !== false) {
         // prepared statement is successful
         echo "stmt is not false";
@@ -67,14 +59,14 @@ if (isset($_POST['register'])) {
     if ($stmt->execute()) {
         // send validation email
 
-        print_r("we are second if");
+//        print_r("we are second if");
         if (class_exists('PHPMailer\PHPMailer\PHPMailer')) {
             // PHPMailer class is loaded
             $mail = new PHPMailer(true);
-            print_r("we are third if");
+//            print_r("we are third if");
           } else {
             // PHPMailer class is not loaded
-            print_r("we are forth if");
+//            print_r("we are forth if");
             error_log('PHPMailer class is not loaded');
           }
         // $mail = new PHPMailer(true);
@@ -94,7 +86,15 @@ if (isset($_POST['register'])) {
             $mail->addAddress($email, $username);
             $mail->isHTML(true);
             $mail->Subject = 'Email validation';
-            $mail->Body    = 'Please click the following link to validate your email: <a href="http://your_domain/validate_email.php?token=' . $confirmation_code . '">Click here</a>';
+            //$mail->Body    = 'Please click the following link to validate your email: <a href="http://your_domain/validate_email.php?token=' . $confirmation_code . '">Click here</a>';
+            var_dump($_SERVER);
+            if ($_SERVER['HTTP_HOST'] == 'localhost:8080') {
+                $domain = 'http://localhost:8080';
+            } else {
+                $domain = 'https://scool-project-daw.herokuapp.com/';
+            }
+            
+            $mail->Body    = 'Please click the following link to validate your email: <a href="' . $domain . '/validate_email.php?token=' . $confirmation_code . '">Click here</a>';
 
             // send email
             $mail->send();

@@ -19,12 +19,13 @@ if ($dbparts === false) {
 }
 
 //var_dump($dbparts);
+//var_dump($_SERVER['HTTP_HOST']);
 
-if ($_SERVER['HTTP_HOST'] == 'localhost') {
+if ($_SERVER['HTTP_HOST'] == 'localhost:8080') {
     $hostname = 'localhost';
     $username = 'root';
     $password = 'root';
-    $database = 'my_local_database_name';
+    $database = 'revista';
 } else {
     $hostname = $dbparts['host'];
     $username = $dbparts['user'];
