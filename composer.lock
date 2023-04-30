@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99e441521b82f7bb4dc9974906e0758d",
+    "content-hash": "ed85a7235f86ebc389080565bafedfcf",
     "packages": [
         {
             "name": "graham-campbell/result-type",
@@ -136,6 +136,10 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+            "support": {
+                "issues": "https://github.com/PHPMailer/PHPMailer/issues",
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.8.0"
+            },
             "funding": [
                 {
                     "url": "https://github.com/Synchro",
@@ -264,6 +268,10 @@
                 "pdf",
                 "text"
             ],
+            "support": {
+                "issues": "https://github.com/smalot/pdfparser/issues",
+                "source": "https://github.com/smalot/pdfparser/tree/v2.4.0"
+            },
             "time": "2023-03-14T08:13:58+00:00"
         },
         {
@@ -311,6 +319,10 @@
                 "pdf-to-text",
                 "spatie"
             ],
+            "support": {
+                "issues": "https://github.com/spatie/pdf-to-text/issues",
+                "source": "https://github.com/spatie/pdf-to-text/tree/1.52.0"
+            },
             "funding": [
                 {
                     "url": "https://spatie.be/open-source/support-us",
@@ -610,6 +622,9 @@
             ],
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/process/tree/v5.4.23"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -717,7 +732,9 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "composer-plugin-api": "^2.0"
+    },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.3.0"
 }
