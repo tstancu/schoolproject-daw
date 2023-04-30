@@ -3,7 +3,6 @@
         "phpmailer/phpmailer": "^6.5",
         "vlucas/phpdotenv": "^5.5",
         "spatie/pdf-to-text": "^1.52",
-        "smalot/pdfparser": "^2.4",
-        "composer-plugin-api": "^2.0"
+        "smalot/pdfparser": "^2.4"
     }
 }
