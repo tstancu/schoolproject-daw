@@ -13,7 +13,7 @@ error_reporting(E_ALL);
 
 
 // Get the user's subscription_level_id
-$user_subscription_level_id = get_subscription_level_id($_SESSION['user_id'], $conn);
+$user_subscription_level_id = getSubscriptionLevelById($_SESSION['user_id']);
 
 // Update the subscription_level_id in the session
 $_SESSION['subscription_level_id'] = $user_subscription_level_id;

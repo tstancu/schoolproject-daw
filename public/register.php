@@ -21,10 +21,6 @@ use PHPMailer\PHPMailer\Exception;
 // print_r("we are here");
 
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 function generate_token($length = 64) {
     return bin2hex(random_bytes($length / 2));
 }
