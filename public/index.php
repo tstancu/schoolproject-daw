@@ -2,6 +2,7 @@
 require_once 'includes/check-login.php';
 require_once 'includes/db.php';
 require_once 'includes/utils.php';
+require_once 'includes/queries.php';
 
 ob_start(); // Start output buffering
 
