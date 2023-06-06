@@ -5,11 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 define('__ROOT__', dirname(dirname(dirname(__FILE__))));
 define('__FILEROOT__', dirname(__FILE__));
-//require_once '../../vendor/autoload.php';
-// print_r(__ROOT__);
-// echo '<br/>';
-// print_r(__FILEROOT__);
-// echo '<br/>';
+
 require_once(__ROOT__.'/vendor/autoload.php');
 
 
@@ -17,29 +13,14 @@ use Smalot\PdfParser\Parser;
 use PHPMailer\PHPMailer\PHPMailer;
 
 if (class_exists('Smalot\PdfParser\Parser')) {
-    // PHPMailer class is loaded
-    // print_r("voila");
+
     $parser = new Parser();
-//            print_r("we are third if");
+
   } else {
-    // PHPMailer class is not loaded
-//            print_r("we are forth if");
+
     error_log('Parser class is not loaded');
   }
-//$parser = new Parser();
 
-
-
-
-
-// Update the user's subscription_level_id in the database (example)
-// ... your code for updating the subscription_level_id ...
-
-// Get the updated subscription_level_id
-// $updated_subscription_level_id = get_subscription_level_id($_SESSION['user_id'], $conn);
-
-// Update the subscription_level_id in the session
-// $_SESSION['subscription_level_id'] = $updated_subscription_level_id;
 
 function slugify($string)
 {
@@ -67,7 +48,6 @@ function isEditor()
     }
 
     $user = getUserById($_SESSION['user_id']);
-    //var_dump($user);
 
     if ($user['role_id'] == 2) {
         return true;
@@ -75,8 +55,6 @@ function isEditor()
 
     return false;
 }
-
-
 
 function extract_text_from_pdf($pdf_path) {
     $parser = new Parser();

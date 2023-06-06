@@ -1,39 +1,45 @@
 <?php
-require_once 'includes/check-login.php';
-require_once 'includes/db.php';
-require_once 'includes/utils.php';
-require_once 'includes/queries.php';
+    require_once 'includes/check-login.php';
+    require_once 'includes/db.php';
+    require_once 'includes/utils.php';
+    require_once 'includes/queries.php';
 
-ob_start(); // Start output buffering
+    // ob_start(); // Start output buffering
 
-$error = '';
+    $error = '';
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+    if (session_status() === PHP_SESSION_NONE) {
+        // echo 'i am here';
+        session_start();
+        // var_dump($_SESSION);
+    }
+    // Get the user's subscription_level_id
+    $user_subscription_level_id = getSubscriptionLevelById($_SESSION['user_id']);
+    $user = getUserById($_SESSION['user_id']);
+    $user_role = $user['role_id'];
 
+    // Update the subscription_level_id in the session
+    // $_SESSION['subscription_level_id'] = $user_subscription_level_id;
+    // $_SESSION['role_id'] = $user_role;
 
-// Get the user's subscription_level_id
-$user_subscription_level_id = getSubscriptionLevelById($_SESSION['user_id']);
+    $sql = "SELECT * FROM articles WHERE subscription_level_id <= ?";
+    $stmt = $conn->prepare($sql);
+    if ($stmt === false) {
+        die("Error preparing statement: " . $conn->error);
+    }
+    // print_r([$_SESSION]);
+    $stmt->bind_param("i", $_SESSION['subscription_level_id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $content = $result->fetch_all(MYSQLI_ASSOC);
+    // print_r([$content]);
+    $stmt->close();
 
-// Update the subscription_level_id in the session
-$_SESSION['subscription_level_id'] = $user_subscription_level_id;
-
-$sql = "SELECT * FROM articles WHERE subscription_level_id <= ?";
-$stmt = $conn->prepare($sql);
-if ($stmt === false) {
-    die("Error preparing statement: " . $conn->error);
-}
-print_r([$_SESSION]);
-$stmt->bind_param("i", $_SESSION['subscription_level_id']);
-$stmt->execute();
-$result = $stmt->get_result();
-$content = $result->fetch_all(MYSQLI_ASSOC);
-// print_r([$content]);
-$stmt->close();
-
-$log = ob_get_clean(); // Get the content of the output buffer
-file_put_contents("query_log.txt", $log, FILE_APPEND); // Write the log to a file
+    // $log = ob_get_clean(); // Get the content of the output buffer
+    // file_put_contents("query_log.txt", $log, FILE_APPEND); // Write the log to a file
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +55,7 @@ file_put_contents("query_log.txt", $log, FILE_APPEND); // Write the log to a fil
 
 <body>
 
+    <?php include 'includes/navbar.php'; ?>
 
     <div class="container mt-5">
         <div class="row">

@@ -8,7 +8,7 @@ require_once '../public/includes/queries.php';
 // error_reporting(E_ALL);
 if (isset($_GET['term'])) {
     $searchTerm = $_GET['term'];
-    //var_dump ($searchTerm = $_GET['term']);
+    // var_dump ($searchTerm = $_GET['term']);
     $authors = get_authors();
 
     $matches = array_filter($authors, function($author) use ($searchTerm) {

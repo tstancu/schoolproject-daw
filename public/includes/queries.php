@@ -69,7 +69,7 @@ function insert_author($name, $bio, $profile_image_url) {
 function getUserById($id)
 {
     global $conn;
-
+    
     $sql = "SELECT * FROM users WHERE id=?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);

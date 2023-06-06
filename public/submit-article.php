@@ -15,11 +15,12 @@
 </head>
 
 <body>
+    <?php include 'includes/navbar.php'; ?>
     <div class="container">
-        <h1>Submit Article</h1>
-
+        <h3 class="my-4">Submit Article</h3>
         <form id="submit-article-form">
             <div class="alert" id="message" style="display:none;"></div>
+
             <div class="form-group">
                 <label for="author">Author</label>
                 <br>
@@ -35,10 +36,12 @@
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" name="title" id="title" class="form-control" placeholder="Enter article title" required>
             </div>
+
             <div class="form-group">
                 <label for="content">Content</label>
                 <textarea class="form-control" id="content" name="content" rows="10"></textarea>
@@ -49,7 +52,9 @@
                 <input type="file" class="form-control-file" id="pdf-file" name="pdf-file">
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
         </form>
     </div>
 
@@ -115,7 +120,7 @@
 
             // Submit article form handler
             $('#submit-article-form').submit(function(e) {
-                
+
                 e.preventDefault();
                 var formData = new FormData(this);
                 // var formData = $(this).serialize();
